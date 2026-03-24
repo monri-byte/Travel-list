@@ -1,44 +1,42 @@
 import React, { useState } from 'react';
 import './App.css';
 
-function App() {
-  // Начальные данные путешествий
-  const initialTravels = [
-    {
-      id: 1,
-      country: 'Италия',
-      title: 'Романтическая Венеция',
-      description: 'Путешествие по каналам и мостам самого романтичного города Италии',
-      likes: 5
-    },
-    {
-      id: 2,
-      country: 'Япония',
-      title: 'Сакура в Токио',
-      description: 'Наслаждение цветением сакуры и знакомство с японской культурой',
-      likes: 8
-    },
-    {
-      id: 3,
-      country: 'Франция',
-      title: 'Винные дороги Бордо',
-      description: 'Дегустация лучших вин и посещение знаменитых шато',
-      likes: 3
-    },
-    {
-      id: 4,
-      country: 'Италия',
-      title: 'Кулинарный тур по Тоскане',
-      description: 'Мастер-классы по приготовлению пасты и дегустация оливкового масла',
-      likes: 6
-    }
-  ];
+// Данные путешествий хранятся в JavaScript массиве
+const INITIAL_TRAVELS = [
+  {
+    id: 1,
+    country: 'Италия',
+    title: 'Романтическая Венеция',
+    description: 'Путешествие по каналам и мостам самого романтичного города Италии',
+    likes: 5
+  },
+  {
+    id: 2,
+    country: 'Япония',
+    title: 'Сакура в Токио',
+    description: 'Наслаждение цветением сакуры и знакомство с японской культурой',
+    likes: 8
+  },
+  {
+    id: 3,
+    country: 'Франция',
+    title: 'Винные дороги Бордо',
+    description: 'Дегустация лучших вин и посещение знаменитых шато',
+    likes: 3
+  },
+  {
+    id: 4,
+    country: 'Италия',
+    title: 'Кулинарный тур по Тоскане',
+    description: 'Мастер-классы по приготовлению пасты и дегустация оливкового масла',
+    likes: 6
+  }
+];
 
-  const [travels, setTravels] = useState(initialTravels);
+function App() {
+  const [travels, setTravels] = useState(INITIAL_TRAVELS);
   const [filterCountry, setFilterCountry] = useState('');
   const [showForm, setShowForm] = useState(false);
-  
-  // Состояние для формы добавления
   const [newTravel, setNewTravel] = useState({
     country: '',
     title: '',
@@ -74,27 +72,21 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Валидация формы
     if (!newTravel.country || !newTravel.title || !newTravel.description) {
       alert('Пожалуйста, заполните все поля');
       return;
     }
 
-    // Создание нового путешествия
     const travel = {
       id: Date.now(),
-      ...newTravel,
+      country: newTravel.country,
+      title: newTravel.title,
+      description: newTravel.description,
       likes: 0
     };
 
     setTravels([...travels, travel]);
-    
-    // Сброс формы
-    setNewTravel({
-      country: '',
-      title: '',
-      description: ''
-    });
+    setNewTravel({ country: '', title: '', description: '' });
     setShowForm(false);
   };
 
@@ -107,7 +99,6 @@ function App() {
 
       <main className="main-content">
         <div className="controls">
-          {/* Фильтр по стране */}
           <div className="filter-section">
             <label htmlFor="country-filter">Фильтр по стране: </label>
             <select
@@ -124,7 +115,6 @@ function App() {
             </select>
           </div>
 
-          {/* Кнопка показа формы */}
           <button 
             className="add-button"
             onClick={() => setShowForm(!showForm)}
@@ -133,7 +123,6 @@ function App() {
           </button>
         </div>
 
-        {/* Форма добавления нового путешествия */}
         {showForm && (
           <div className="form-container">
             <h2>Добавить новое путешествие</h2>
@@ -193,7 +182,6 @@ function App() {
           </div>
         )}
 
-        {/* Список карточек путешествий */}
         <div className="travels-grid">
           {filteredTravels.length > 0 ? (
             filteredTravels.map(travel => (
@@ -222,10 +210,9 @@ function App() {
           )}
         </div>
 
-        {/* Статистика */}
         <div className="statistics">
-          <p>Всего путешествий: {travels.length}</p>
-          <p>Всего лайков: {travels.reduce((sum, travel) => sum + travel.likes, 0)}</p>
+          <p>📊 Всего путешествий: {travels.length}</p>
+          <p>❤️ Всего лайков: {travels.reduce((sum, travel) => sum + travel.likes, 0)}</p>
         </div>
       </main>
     </div>
